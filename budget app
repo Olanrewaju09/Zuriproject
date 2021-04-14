@@ -1,0 +1,184 @@
+import time
+
+budget = {}
+
+
+class Budget:
+
+    def __init__(self, category):
+        self.category = category
+        if category in budget:
+            pass
+        else:
+            self.account_balance = 0
+            budget[self.category] = self.account_balance
+
+    def deposit(self):
+        print(f'DEPOSIT TO {self.category} BUDGET')
+        amount_to_deposit = int(input('Enter Amount To Deposit:\n'))
+        self.account_balance = float(amount_to_deposit)
+        budget[self.category] = amount_to_deposit
+        print('Transaction Successful')
+        new()
+
+    def withdraw(self):
+        print(f'WITHDRAW FROM {self.category} BUDGET')
+        withdrawal_amount = int(input('Enter Amount To Withdraw:\n'))
+        if budget[self.category] >= withdrawal_amount:
+            budget[self.category] -= withdrawal_amount
+            print('Withdrawal Successful')
+            new()
+        else:
+            print('Insufficient Funds, Transaction Failed')
+            new()
+
+    def transfer(self, category_to_transfer):
+        print(f'TRANSFER FROM {self.category} BUDGET')
+        transfer_amount = int(input('Enter Amount To Deposit:\n'))
+        if budget[self.category] >= transfer_amount:
+            budget[self.category] -= transfer_amount
+            if category_to_transfer in budget:
+                budget[category_to_transfer] += transfer_amount
+                print('Transaction Successful')
+                new()
+            else:
+                budget[category_to_transfer] = transfer_amount
+                print('Transaction Successful')
+                new()
+        else:
+            print('Insufficient funds, Transaction Failed')
+            new()
+
+    def check_balance(self):
+        print(f'CHECK {self.category} BALANCE')
+        print("#", budget[self.category], ".00")
+        new()
+
+
+def food_():
+    print('What Do You Want To Do?')
+    food = Budget('food')
+    food_option = input('''These Are Your Options
+    1. Deposit
+    2. Withdraw
+    3. Transfer
+    4. Check Balance \n ''')
+    if food_option == '1':
+
+        food.deposit()
+    elif food_option == '2':
+        food.withdraw()
+    elif food_option == '3':
+        category_to_transfer = input('''Which Item Would You Like To Transfer To?
+        1.Clothing
+        2.Entertainment \n''')
+        if category_to_transfer == '1':
+            food.transfer('clothing')
+        elif category_to_transfer == '2':
+            food.transfer('Entertainment')
+        else:
+            print('invalid option')
+    elif food_option == '4':
+        food.check_balance()
+    else:
+        print('Invalid Option Selected')
+        home()
+
+
+def clothing_():
+    print('What Do You Want To Do?')
+    clothing = Budget('clothing')
+    clothing_option = input('''These Are Your Options
+    1. Deposit
+    2. Withdraw
+    3. Transfer
+    4. Check balance \n ''')
+    if clothing_option == '1':
+        clothing.deposit()
+    elif clothing_option == '2':
+        clothing.withdraw()
+    elif clothing_option == '3':
+        category_to_transfer = input('''Which Item Would You Like To Transfer To?
+        1.Food
+        2.Entertainment \n''')
+        if category_to_transfer == '1':
+            clothing.transfer('food')
+        elif category_to_transfer == '2':
+            clothing.transfer('Entertainment')
+        else:
+            print('Invalid Option')
+    elif clothing_option == '4':
+        clothing.check_balance()
+    else:
+        print('Invalid Option Selected')
+        home()
+
+
+def entertainment_():
+    print('What Do You Want To Do?')
+    entertainment = Budget('Entertainment')
+    entertainment_option = input('''These Are Your Options
+    1. Deposit
+    2. Withdraw
+    3. Transfer
+    4. Check Balance \n ''')
+    if entertainment_option == '1':
+        entertainment.deposit()
+    elif entertainment_option == '2':
+        entertainment.withdraw()
+    elif entertainment_option == '3':
+        category_to_transfer = input('''Which Item Would You Like To Transfer To?
+        1.Food
+        2.Clothing \n''')
+        if category_to_transfer == '1':
+            entertainment.transfer('food')
+        elif category_to_transfer == '2':
+            entertainment.transfer('clothing')
+        else:
+            print('Invalid Option')
+    elif entertainment_option == '4':
+        entertainment.check_balance()
+    else:
+        print('Invalid Option Selected')
+        home()
+
+
+import sys
+
+
+def home():
+    print('WELCOME TO My Monthly Budget')
+    select_option = input('''Which Item Would You Like To Budget For?
+    1. Food
+    2. Clothing
+    3. Entertainment
+    4. Exit \n''')
+    if select_option == '1':
+        food_()
+    elif select_option == '2':
+        clothing_()
+    elif select_option == '3':
+        entertainment_()
+    elif select_option == '4':
+        sys.exit()
+    else:
+        print('Invalid Option')
+        home()
+
+
+def new():
+    option = input('''Would You Like To Make Another Transaction?
+    1. Yes
+    2. No \n''')
+    if option == '1':
+        home()
+    elif option == '2':
+        print('Bye...')
+        time.sleep(2)
+        exit()
+    else:
+        print('Invalid Option Selected')
+        new()
+
+
+home()
